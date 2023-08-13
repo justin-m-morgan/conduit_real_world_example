@@ -1,8 +1,10 @@
-<ConduitWeb.Layouts.Components.header />
-<main class="px-4 py-20 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-2xl">
-    <.flash_group flash={@flash} />
-    <%= @inner_content %>
-  </div>
-</main>
-<ConduitWeb.Layouts.Components.footer />
+<div class="flex flex-col min-h-screen">
+  <ConduitWeb.Layouts.Components.header />
+  <main class="px-4 py-20 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl">
+      <.flash_group flash={@flash} />
+      <%= @inner_content %>
+    </div>
+  </main>
+  <ConduitWeb.Layouts.Components.footer />
+</div>

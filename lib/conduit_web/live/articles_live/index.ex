@@ -41,8 +41,8 @@ defmodule ConduitWeb.ArticlesLive.Index do
             </.feed_item>
           <% end %>
 
-    <div class="flex justify-center">
-          <.pagination_controls pages={@pagination_items} />
+          <div class="flex justify-center">
+            <.pagination_controls pages={@pagination_items} />
           </div>
         </div>
       </div>

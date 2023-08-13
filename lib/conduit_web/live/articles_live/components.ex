@@ -106,7 +106,7 @@ defmodule ConduitWeb.ArticlesLive.Components do
 
   def read_more(assigns) do
     ~H"""
-    <.link to={@link_to} class="text-gray-400">
+    <.link navigate={@link_to} class="text-gray-400">
       Read more...
     </.link>
     """
@@ -135,24 +135,26 @@ defmodule ConduitWeb.ArticlesLive.Components do
 
   def pagination_control(assigns) do
     ~H"""
-     <li>
-          <a
-            href={@link_to}
-            class={["flex items-center justify-center",
-            "px-3 h-8 ml-0",
-            if(@active?,
-              do: "text-blue-600 bg-blue-50 hover:text-blue-700 hover:bg-blue-100",
-              else: "text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800"),
-            "leading-tight",
-            "hover:bg-gray-100 hover:text-gray-700  dark:hover:bg-gray-700 dark:hover:text-white",
-            "border border-gray-300   dark:border-gray-700",
-            if(@rounded_left, do: "rounded-l-lg"),
-            if(@rounded_right, do: "rounded-r-lg"),
-            ]}
-          >
-            <%= @text %>
-          </a>
-        </li>
+    <li>
+      <a
+        href={@link_to}
+        class={[
+          "flex items-center justify-center",
+          "px-3 h-8 ml-0",
+          if(@active?,
+            do: "text-blue-600 bg-blue-50 hover:text-blue-700 hover:bg-blue-100",
+            else: "text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800"
+          ),
+          "leading-tight",
+          "hover:bg-gray-100 hover:text-gray-700  dark:hover:bg-gray-700 dark:hover:text-white",
+          "border border-gray-300   dark:border-gray-700",
+          if(@rounded_left, do: "rounded-l-lg"),
+          if(@rounded_right, do: "rounded-r-lg")
+        ]}
+      >
+        <%= @text %>
+      </a>
+    </li>
     """
   end
 
@@ -163,15 +165,13 @@ defmodule ConduitWeb.ArticlesLive.Components do
     ~H"""
     <nav aria-label="Page navigation example">
       <ul class="inline-flex -space-x-px text-sm">
-        <.pagination_control text="Previous" link_to="#" rounded_left={true}/>
+        <.pagination_control text="Previous" link_to="#" rounded_left={true} />
 
         <%= for page <- @pages do %>
-          <.pagination_control text={page.number} link_to={page.link_to} active?={page[:active]}/>
+          <.pagination_control text={page.number} link_to={page.link_to} active?={page[:active]} />
         <% end %>
 
-        <.pagination_control text="Next" link_to="#" rounded_right={true}/>
-
-
+        <.pagination_control text="Next" link_to="#" rounded_right={true} />
       </ul>
     </nav>
     """
@@ -194,6 +194,16 @@ defmodule ConduitWeb.ArticlesLive.Components do
         <% end %>
       </div>
     </.card>
+    """
+  end
+
+  attr(:body, :string, default: "")
+
+  def body_parser(assigns) do
+    ~H"""
+    <p>
+      <%= @body %>
+    </p>
     """
   end
 end
