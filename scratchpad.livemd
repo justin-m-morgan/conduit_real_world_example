@@ -4,6 +4,8 @@
 
 ```elixir
 IEx.Helpers.recompile()
+
+alias Conduit.{Repo, Articles, Authors}
 ```
 
 <!-- Learn more at https://mermaid-js.github.io/mermaid -->
@@ -19,5 +21,22 @@ graph TD;
 ```
 
 ```elixir
-Conduit.Authors.list_authors()
+Authors.list_authors()
+```
+
+```elixir
+attrs = %{
+  body: "Test Article Test Article Test Article Test Article Test Article",
+  promo_text: "Better",
+  slug: "test-article-2",
+  title: "Test Article 2",
+  author_id: 1
+}
+
+{:ok, article} = Articles.create_article(attrs)
+article
+```
+
+```elixir
+article |> Repo.preload(:author)
 ```
