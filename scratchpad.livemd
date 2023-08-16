@@ -1,0 +1,23 @@
+# Scratchpad
+
+## Section
+
+```elixir
+IEx.Helpers.recompile()
+```
+
+<!-- Learn more at https://mermaid-js.github.io/mermaid -->
+
+```mermaid
+graph TD;
+  Authors[Authors - Context] --> Articles; 
+  Articles[Articles - Context] --> Comments;
+  Articles  --> Likes;
+  Articles --> Tags;
+  Users --> Authors;
+  Authors --> Friends;
+```
+
+```elixir
+Conduit.Authors.list_authors()
+```
