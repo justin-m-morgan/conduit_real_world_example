@@ -6,7 +6,34 @@ defmodule Conduit.Articles do
   import Ecto.Query, warn: false
   alias Conduit.Repo
 
-  alias Conduit.Articles.Article
+  alias Conduit.Articles.Schemas.{Article, Comment, Like}
+
+  @doc """
+  Adds a comment to an article.
+  """
+  def add_comment(%Article{} = article, %{"author_id" => author_id, "body" => body}) do
+    comment_attrs = %{author_id: author_id, article_id: article.id, body: body}
+
+    %Comment{}
+    |> Comment.changeset(comment_attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Adds a like to an article.
+  """
+  def add_like(%Article{} = article, %{"author_id" => author_id}) do
+    # Copilot Suggestion (Skip changesets altogether)
+    # like = %Like{author_id: author_id, article_id: article.id}
+    # Repo.insert(like)
+
+    # Copilot Suggestion (Use changesets)
+    like_attrs = %{author_id: author_id, article_id: article.id}
+
+    %Like{}
+    |> Like.changeset(like_attrs)
+    |> Repo.insert()
+  end
 
   @doc """
   Returns the list of articles.
@@ -17,8 +44,12 @@ defmodule Conduit.Articles do
       [%Article{}, ...]
 
   """
-  def list_articles do
-    Repo.all(Article)
+  def list_articles(opts \\ []) do
+    preloads = opts[:preload] || []
+
+    Article
+    |> preload(^preloads)
+    |> Repo.all()
   end
 
   @doc """
@@ -35,7 +66,13 @@ defmodule Conduit.Articles do
       ** (Ecto.NoResultsError)
 
   """
-  def get_article!(id), do: Repo.get!(Article, id)
+  def get_article!(id, opts \\ []) do
+    preloads = opts[:preload] || []
+
+    Article
+    |> preload(^preloads)
+    |> Repo.get!(id)
+  end
 
   @doc """
   Creates a article.

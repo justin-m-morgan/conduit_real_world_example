@@ -8,6 +8,7 @@ defmodule Conduit.Repo.Migrations.CreateArticles do
       add :slug, :string
       add :promo_text, :string
       add :author_id, references(:authors, on_delete: :nothing)
+      add :created_at, :naive_datetime, default: fragment("CURRENT_TIMESTAMP")
 
       timestamps()
     end

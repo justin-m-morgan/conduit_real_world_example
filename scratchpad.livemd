@@ -25,12 +25,20 @@ Authors.list_authors()
 ```
 
 ```elixir
+auth_attrs = %{
+  name: "Justin"
+}
+
+{:ok, author} = Authors.create_author(auth_attrs)
+```
+
+```elixir
 attrs = %{
   body: "Test Article Test Article Test Article Test Article Test Article",
   promo_text: "Better",
   slug: "test-article-2",
   title: "Test Article 2",
-  author_id: 1
+  author_id: author.id
 }
 
 {:ok, article} = Articles.create_article(attrs)
@@ -38,5 +46,57 @@ article
 ```
 
 ```elixir
-article |> Repo.preload(:author)
+IEx.Helpers.recompile()
+```
+
+```elixir
+# article |> Repo.preload(:author)
+Articles.list_articles()
+```
+
+```elixir
+alias Articles.Schemas.Like
+
+like_attrs = %{
+  article_id: article.id,
+  author_id: author.id
+}
+
+Like.changeset(%Like{}, like_attrs)
+```
+
+```elixir
+alias Articles.Schemas.Comment
+
+comment_attrs = %{
+  article_id: article.id,
+  author_id: author.id,
+  body: "ldsajfdslakjfa;lsdjfalsd"
+}
+```
+
+```elixir
+article
+|> Articles.add_like(%{"author_id" => author.id})
+```
+
+```elixir
+Articles.get_article!(article.id) |> Repo.preload(:likes)
+```
+
+```elixir
+IEx.Helpers.recompile()
+```
+
+```elixir
+comment_attrs = %{
+  "author_id" => author.id,
+  "body" => "jasdfljasdflj"
+}
+
+Articles.add_comment(article, comment_attrs)
+```
+
+```elixir
+Articles.get_article!(article.id) |> Repo.preload([:likes, :comments])
 ```

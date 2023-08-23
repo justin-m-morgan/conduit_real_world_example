@@ -1,4 +1,4 @@
-defmodule Conduit.Articles.Article do
+defmodule Conduit.Articles.Schemas.Article do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -7,6 +7,10 @@ defmodule Conduit.Articles.Article do
     field :promo_text, :string
     field :slug, :string
     field :title, :string
+    field :created, :naive_datetime
+
+    has_many :comments, Conduit.Articles.Schemas.Comment
+    has_many :likes, Conduit.Articles.Schemas.Like
 
     belongs_to :author, Conduit.Authors.Author
 

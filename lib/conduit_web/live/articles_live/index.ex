@@ -3,10 +3,15 @@ defmodule ConduitWeb.ArticlesLive.Index do
 
   import ConduitWeb.ArticlesLive.Components
 
+  alias Conduit.Articles
+
   def mount(_params, _session, socket) do
+    all_articles = Articles.list_articles(preload: [:author, :likes])
+    IO.inspect(all_articles)
+
     socket =
       socket
-      |> assign(:feed, dummy_content_feed())
+      |> assign(:feed, all_articles)
       |> assign(:tags, dummy_tags())
       |> assign(:selected_tag, nil)
       |> assign(:pagination_items, dummy_pagination_items())
@@ -23,10 +28,13 @@ defmodule ConduitWeb.ArticlesLive.Index do
           <%= for item <- @feed do %>
             <.feed_item>
               <:author_badge>
-                <.author_badge author={item.author} published_on={item.published_on} />
+                <.author_badge
+                  author={item.author}
+                  published_on={NaiveDateTime.to_date(item.inserted_at)}
+                />
               </:author_badge>
               <:like_count>
-                <.like_count likes={item.like_count} />
+                <.like_count likes={length(item.likes)} />
               </:like_count>
 
               <:article_preview>
@@ -36,7 +44,7 @@ defmodule ConduitWeb.ArticlesLive.Index do
                 <.read_more link_to={~p[/articles/#{item.id}]} />
               </:read_more>
               <:article_tags>
-                <.article_tags tags={item.tags} />
+                <.article_tags tags={["tag 1", "tag 2"]} />
               </:article_tags>
             </.feed_item>
           <% end %>
